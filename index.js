@@ -3,7 +3,12 @@ const SMTPServer = require('smtp-server').SMTPServer;
 const mailServer = new SMTPServer({
   banner: 'hi',
   secure: false,
-  disabledCommands: ['AUTH', 'STARTTLS'],
+  logger: true,
+  disabledCommands: ['AUTH'],
+  onRcptTo(address, session, callback) {
+    console.log(address)
+    return callback(); // Accept the address
+  },
   onData(stream, session, callback) {
     console.log(session)
     console.log(stream)
